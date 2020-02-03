@@ -1,35 +1,40 @@
 pragma solidity ^0.5.0;
 
 contract CoinaAppart {
-    address public _locataire;
-    address public _proprietaire;
+    address public locataire;
+    address public proprietaire;
     
-    bool public _validationLocataire;
-    bool public _validationProprietaire;
+    bool public validationLocataire;
+    //bool public validationProprietaire;
     
     uint24 public amount;
     
     bytes32 public hashDoc;
     
-    constructor(address proprietaire) public 
+    constructor(address _proprietaire , bytes32  _hashDoc, uint24  _amount ) public 
     {
-        _locataire = msg.sender;
-        _proprietaire = proprietaire;
+        locataire = msg.sender;
+        proprietaire = _proprietaire;
+        hashDoc = _hashDoc;
+        amount = _amount;
+        validationLocataire = false;
     }
     
     
-    function launchContract(bytes32  hash, uint24  amount ) public returns (bool check)
+    function launchContract(bytes32  _hashDoc, uint24 _amount ) public returns (bool check)
     {
-        if (_validationLocataire || _validationProprietaire)
+        require(msg.sender == proprietaire);
+        if(_hashDoc == hashDoc && amount == _amount)
         {
-            
+            validationLocataire = true;
+            check = true;
         }
         else
         {
-            
+            check = false;
         }
+        return check;
     }
     
-    bool public _launchContract;
     
 }
