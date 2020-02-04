@@ -1,6 +1,7 @@
 
 import json , os , hashlib 
 from web3 import Web3, HTTPProvider
+
 #Importe les adresses et les clès
 def import_log():
     with open('log_id.json') as json_data:
@@ -10,7 +11,6 @@ def import_log():
 #Initialisation du Web3 provider
 ganache_url = "http://127.0.0.1:7545"
 w3 = Web3( Web3.HTTPProvider(ganache_url) )
-os.system("clear")
 
 #On set le default account sur l'adresse du locataire 
 w3.eth.defaultAccount = import_log()['adresseLocataire']
@@ -25,8 +25,8 @@ contract = w3.eth.contract(address = contract_adress , abi = contract_abi)
 
 _hash = hashlib.sha256(bytes(32000)).digest()
 
-valid = contract.functions.initializationContract(import_log()['adresseProprietaire'],_hash, 3000).transact()
-print()
+valid = contract.functions.initializationContract(import_log()['adresseProprietaire'],_hash, 9000).transact()
+print(valid)
 print(" ")
 print(contract.functions.getLocataire().call())
 print(contract.functions.getProprietaire().call())
