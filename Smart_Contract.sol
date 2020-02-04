@@ -3,6 +3,7 @@ pragma solidity ^0.5.0;
 contract CoinaAppart {
     address public locataire;
     address public proprietaire;
+    address payable Compound;
     
     bool public validationLocataire;
     //bool public validationProprietaire;
@@ -16,14 +17,13 @@ contract CoinaAppart {
         locataire = msg.sender;
     }
     
-    function initializationContract(address _proprietaire , bytes32  _hashDoc, uint24  _amount ) public returns (bool)
+    function initializationContract(address _proprietaire , bytes32  _hashDoc, uint24  _amount ) public payable
     {
         require(msg.sender == locataire);
         proprietaire = _proprietaire;
         hashDoc = _hashDoc;
         amount = _amount;
         validationLocataire = false;
-        return true;
     }
     
     
@@ -42,14 +42,14 @@ contract CoinaAppart {
         return check;
     }
     
-    function getLocataire() view public returns (address){
-        return locataire;
-    }
-    function getProprietaire() view public returns (address){
-    return proprietaire;
-    }
-    function getAmount() view public returns (uint24){
-    return amount;
+    function goCompound()public
+    {
+        Compound.transfer(address(this).balance);
     }
     
-}
+    function getLocataire() view public returns (address){return locataire;}
+    function getProprietaire() view public returns (address){return proprietaire;}
+    function getAmount() view public returns (uint24){return amount;}
+    function getBalance()public view returns (uint  ){return address(this).balance;}
+    
+    
