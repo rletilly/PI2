@@ -52,4 +52,4 @@ contract CoinaAppart {
     function getAmount() view public returns (uint24){return amount;}
     function getBalance()public view returns (uint  ){return address(this).balance;}
     
-    
+}
