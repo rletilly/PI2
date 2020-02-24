@@ -35,12 +35,14 @@ _hash = hashlib.sha256(bytes(32000)).digest()
 txn = contract.functions.initializationContract(import_log()['adresseProprietaire'],_hash, 0000).buildTransaction({
       'chainId': 13999911119,
       'gas': 70000,
-      'value': 10,
+      'value': 10000000000000000000,
       'gasPrice': w3.toWei('8', 'gwei'),
       'nonce': w3.eth.getTransactionCount(locataire)
     })
 signed_txn = w3.eth.account.sign_transaction(txn, private_key=import_log()['privateKeyLocataire'])
-w3.eth.sendRawTransaction(signed_txn.rawTransaction)
+#w3.eth.sendRawTransaction(signed_txn.rawTransaction)
+contract.functions.goCompound().transact()
+
 
 print(txn)
 print(" ")
